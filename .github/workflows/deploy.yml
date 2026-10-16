@@ -2,7 +2,8 @@ name: Deploy a Render
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -17,11 +18,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Instalar dependencias
-        run: npm ci
-
       - name: Verificar sintaxis
         run: find src -name "*.js" -exec node --check {} \;
 
       - name: Desplegar en Render
-        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          test -n "$RENDER_DEPLOY_HOOK_URL" || { echo "Falta RENDER_DEPLOY_HOOK_URL" >&2; exit 1; }
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"
