@@ -5,7 +5,7 @@ const validarCampos = (body, { parcial }) => {
     const errores = [];
     const datos = {};
     const { nombre, precio, stock } = body || {};
-// ndjbvjidfbjfbdf
+// ndjbvjidfbjfbdfdjjddncjd
     if (nombre !== undefined) {
         if (typeof nombre !== 'string' || nombre.trim() === '') errores.push('"nombre" debe ser un texto no vacío');
         else if (nombre.length > 100) errores.push('"nombre" no puede superar 100 caracteres');
